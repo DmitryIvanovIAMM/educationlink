@@ -15,7 +15,4 @@ server.pid
 *.eml
 
 # Ignore most of the IntelliJ
-*.iws
-tasks.xml
-workspace.xml
 .idea/libraries
