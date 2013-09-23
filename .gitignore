@@ -1,4 +1,10 @@
+# Ignore all dotfiles...
+.*
+# except for .gitignore
+!.gitignore
+
 # Ignore Play! working directory #
+eclipse
 lib
 log
 logs
@@ -14,5 +20,6 @@ server.pid
 *.iml
 *.eml
 
-# Ignore most of the IntelliJ
-.idea/libraries
+.idea/workspace.xml
+
+.idea/workspace.xml
