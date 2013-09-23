@@ -1,0 +1,15 @@
+---
+applications:
+- name: SignUp
+  memory: 512M
+  instances: 1
+  host: dev
+  domain: sign-up.us
+  path: ./dist/signup-1.0-SNAPSHOT.zip
+  services:
+    sign-up:
+      label: cleardb
+      provider: cleardb
+      version: n/a
+      plan: spark
+  buildpack: https://github.com/cloudfoundry/java-buildpack
