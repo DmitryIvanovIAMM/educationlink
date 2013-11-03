@@ -10,7 +10,7 @@ import views._
 
 import models._
 
-object Contacts extends Controller {
+object Registration extends Controller {
   
   /**
    * Contact Form definition.
@@ -41,9 +41,9 @@ object Contacts extends Controller {
    * Display an empty form.
    */
   def form = Action {
-    Ok(html.contact.form(contactForm));
+    Ok(html.registration.form(contactForm));
   }
-  
+
   /**
    * Display a form pre-filled with an existing Contact.
    */
@@ -61,16 +61,14 @@ object Contacts extends Controller {
         )
       )
     )
-    Ok(html.contact.form(contactForm.fill(existingContact)))
+    Ok(html.registration.form(contactForm.fill(existingContact)))
   }
-  
-  /**
-   * Handle form submission.
-   */
+
+
   def submit = Action { implicit request =>
     contactForm.bindFromRequest.fold(
-      errors => BadRequest(html.contact.form(errors)),
-      contact => Ok(html.contact.summary(contact))
+      errors => BadRequest(html.registration.form(errors)),
+      contact => Ok(html.registration.summary(contact))
     )
   }
   

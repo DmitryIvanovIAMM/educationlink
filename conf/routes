@@ -11,9 +11,9 @@ GET     /users/fakeuser             controllers.SignUp.editForm
 POST    /signup                     controllers.SignUp.submit
 
 # Contact
-GET     /contacts                   controllers.Contacts.form
-GET     /contacts/fakecontact       controllers.Contacts.editForm
-POST    /contacts                   controllers.Contacts.submit
+GET     /registration               controllers.Registration.form
+GET     /registration/fakecontact   controllers.Registration.editForm
+POST    /contacts                   controllers.Registration.submit
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

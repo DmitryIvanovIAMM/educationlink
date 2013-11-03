@@ -4,7 +4,7 @@
 @import helper.twitterBootstrap._
 
 @title = {
-    Add a new contact <small><a href="@routes.Contacts.editForm">Or edit an existing contact</a></small>
+    Add a new registration <small><a href="@routes.Registration.editForm">Or edit an existing registration</a></small>
 }
 
 @phoneField(field: Field, className: String = "phone") = {
@@ -56,7 +56,7 @@
     </div>
 }
 
-@main(title, nav = "contact") {
+@main(title, nav = "registration") {
     
     @if(contactForm.hasErrors) {
         <div class="alert-message error">
@@ -64,7 +64,7 @@
         </div>
     }
     
-    @helper.form(action = routes.Contacts.submit) {
+    @helper.form(action = routes.Registration.submit) {
         
         <fieldset>
             <legend>General informations</legend>
