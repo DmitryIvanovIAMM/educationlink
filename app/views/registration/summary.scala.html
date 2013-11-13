@@ -1,37 +1,19 @@
-@(contact: Contact)
+@(user: User)
 
-@main(Html("Contact created!"), nav = "registration") {
-    
-    <h2>@contact.firstname @contact.lastname</h2>
-    
-    <h6>Company</h6>
-    
+@main(Html("User created!"), nav = "Registration") {
+
+    <h2>Your account:</h2>
+
+    <h6>Username</h6>
+
     <p>
-        @contact.company.getOrElse { <em>Not specified</em> } 
+    @user.username
     </p>
-    
-    @contact.informations.map { information =>
-        
-        <h3>@information.label:</h3>
-        
-        <h6>Email</h6>
 
-        <p>
-            @information.email.getOrElse { <em>Not specified</em> } 
-        </p>
-        
-        @if(information.phones.size > 0) {
-            
-            <h6>Phones</h6>
-            
-            <ul>
-                @information.phones.map { phone =>
-                    <li>@phone</li>
-                }
-            </ul>
-            
-        }
-        
-    }
-    
+    <h6>Email</h6>
+
+    <p>
+    @user.email
+    </p>
+
 }

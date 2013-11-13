@@ -1,75 +1,73 @@
 package controllers
 
-import play.api._
 import play.api.mvc._
 import play.api.data._
 import play.api.data.Forms._
-import play.api.data.validation.Constraints._
 
 import views._
 
 import models._
 
 object Registration extends Controller {
-  
-  /**
-   * Contact Form definition.
-   */
-  val contactForm: Form[Contact] = Form(
-    
-    // Defines a mapping that will handle Contact values
+
+  val registrationForm: Form[User] = Form(
+
+    // Define a mapping that will handle User values
     mapping(
-      "firstname" -> nonEmptyText,
-      "lastname" -> nonEmptyText,
-      "company" -> optional(text),
-      
-      // Defines a repeated mapping
-      "informations" -> seq(
-        mapping(
-          "label" -> nonEmptyText,
-          "email" -> optional(email),
-          "phones" -> list(
-            text verifying pattern("""[0-9.+]+""".r, error="A valid phone number is required")
-          ) 
-        )(ContactInformation.apply)(ContactInformation.unapply)
-      )
-      
-    )(Contact.apply)(Contact.unapply)
+      "username" -> text(minLength = 4, maxLength = 45),
+      "email" -> email,
+
+      // Create a tuple mapping for the password/confirm
+      "password" -> tuple(
+        "main" -> text(minLength = 6),
+        "confirm" -> text
+      ).verifying(
+        // Add an additional constraint: both passwords must match
+        "Passwords don't match", passwords => passwords._1 == passwords._2
+      ),
+      "address1" -> text(maxLength = 128),
+      "address2" -> text(maxLength = 128),
+      "city" -> text(maxLength = 128),
+      "state" -> text(maxLength = 2),
+      "zip" -> text(maxLength = 5),
+      "phone1_no" -> text(maxLength = 15),
+      "phone1_type" -> text(maxLength = 15),
+
+      "accept" -> checked("You must accept the conditions")
+    )
+      // The mapping signature doesn't match the User case class signature,
+      // so we have to define custom binding/unbinding functions {
+      // Binding: Create a User from the mapping result (ignore the second password and the accept field)
+      (username, email, passwords, address1, address2, city, state, zip, phone1_no, phone1_type, _) => User(0, username, passwords._1, email, address1, address2, city, state, zip, phone1_no, phone1_type)
+    } {
+      // Unbinding: Create the mapping values from an existing User value
+      user => Some(user.username, user.email, (user.password, ""), user.address1, user.address2, user.city, user.state, user.zip, user.phone1_no, user.phone1_type, false)
+    }.verifying(
+      // Add an additional constraint: The username must not be taken (you could do an SQL request here)
+      "This username is not available",
+      user => !Seq("admin", "guest").contains(user.username)
+    )
   )
-  
+
   /**
    * Display an empty form.
    */
   def form = Action {
-    Ok(html.registration.form(contactForm));
+    Ok(html.Registration.form(registrationForm));
   }
 
   /**
-   * Display a form pre-filled with an existing Contact.
+   * Handle form submission.
    */
-  def editForm = Action {
-    val existingContact = Contact(
-      "Fake", "Contact", Some("Fake company"), informations = List(
-        ContactInformation(
-          "Personal", Some("fakecontact@gmail.com"), List("01.23.45.67.89", "98.76.54.32.10")
-        ),
-        ContactInformation(
-          "Professional", Some("fakecontact@company.com"), List("01.23.45.67.89")
-        ),
-        ContactInformation(
-          "Previous", Some("fakecontact@oldcompany.com"), List()
-        )
+  def submit = Action {
+    implicit request =>
+      registrationForm.bindFromRequest.fold(
+        // Form has errors, redisplay it
+        errors => BadRequest(html.Registration.form(errors)),
+
+        // We got a valid User value, display the summary
+        user => Ok(html.Registration.summary(user))
       )
-    )
-    Ok(html.registration.form(contactForm.fill(existingContact)))
   }
 
-
-  def submit = Action { implicit request =>
-    contactForm.bindFromRequest.fold(
-      errors => BadRequest(html.registration.form(errors)),
-      contact => Ok(html.registration.summary(contact))
-    )
-  }
-  
 }
