@@ -11,96 +11,106 @@
 
     @helper.form(action = routes.Registration.submit) {
 
-        <fieldset>
-            <legend>Account informations</legend>
+        <div class="row">
+            <div class="span6">
+                <fieldset>
+                    <legend>Account information</legend>
 
-            @inputText(
-                registrationForm("username"),
-                '_label -> "Username",
-                '_help -> "Please choose a valid username.",
-                '_error -> registrationForm.globalError
-            )
+                    @inputText(
+                        registrationForm("username"),
+                        '_label -> "Username",
+                        '_help -> "Please choose a valid username.",
+                        '_error -> registrationForm.globalError
+                    )
 
-            @inputText(
-                registrationForm("email"), '_label -> "Email",
-                '_help -> "Enter a valid email address."
-            )
+                    @inputText(
+                        registrationForm("email"), '_label -> "Email",
+                        '_help -> "Enter a valid email address."
+                    )
 
-            @inputPassword(
-                registrationForm("password.main"),
-                '_label -> "Password",
-                '_help -> "A password must be at least 6 characters. "
-            )
+                    @inputPassword(
+                        registrationForm("password.main"),
+                        '_label -> "Password",
+                        '_help -> "A password must be at least 6 characters. "
+                    )
 
-            @inputPassword(
-                registrationForm("password.confirm"),
-                '_label -> "Repeat password",
-                '_help -> "Please repeat your password again.",
-                '_error -> registrationForm.error("password")
-            )
+                    @inputPassword(
+                        registrationForm("password.confirm"),
+                        '_label -> "Repeat password",
+                        '_help -> "Please repeat your password again.",
+                        '_error -> registrationForm.error("password")
+                    )
 
-        </fieldset>
+                </fieldset>
+            </div>
+            <div class="span6">
+                <fieldset>
 
-        <fieldset>
+                    <legend>Contact Information</legend>
 
-            <legend>Contact Information</legend>
+                    @inputText(
+                        registrationForm("address1"),
+                        '_label -> "Address 1",
+                        '_showConstraints -> false
+                    )
 
-            @inputText(
-                registrationForm("address1"),
-                '_label -> "Address 1",
-                '_showConstraints -> false
-            )
+                    @inputText(
+                        registrationForm("address2"),
+                        '_label -> "Address 2",
+                        '_showConstraints -> false
+                    )
 
-            @inputText(
-                registrationForm("address2"),
-                '_label -> "Address 2",
-                '_showConstraints -> false
-            )
+                    @inputText(
+                        registrationForm("city"),
+                        '_label -> "City",
+                        '_showConstraints -> false
+                    )
 
-            @inputText(
-                registrationForm("city"),
-                '_label -> "City",
-                '_showConstraints -> false
-            )
+                    @inputText(
+                        registrationForm("state"),
+                        '_label -> "State",
+                        '_showConstraints -> false
+                    )
 
-            @inputText(
-                registrationForm("state"),
-                '_label -> "State",
-                '_showConstraints -> false
-            )
+                    @inputText(
+                        registrationForm("zip"),
+                        '_label -> "Zip",
+                        '_showConstraints -> false
+                    )
 
-            @inputText(
-                registrationForm("zip"),
-                '_label -> "Zip",
-                '_showConstraints -> false
-            )
+                    @inputText(
+                        registrationForm("phone1_no"),
+                        '_label -> "Phone",
+                        '_showConstraints -> false
+                    )
+                    @inputRadioGroup(
+                        registrationForm("phone1_type"),
+                        options = Seq("Cell" -> "Cell", "Home" -> "Home", "Work" -> "Work", "Other" -> "Other"),
+                        '_label -> "Phone Type",
+                        '_showConstraints -> false
+                    )
 
-            @inputText(
-                registrationForm("phone1_no"),
-                '_label -> "Phone",
-                '_showConstraints -> false
-            )
-            @inputText(
-                registrationForm("phone1_type"),
-                '_label -> "Phone Type",
-                '_showConstraints -> false
-            )
+                </fieldset>
+            </div>
+        </div>
 
-        </fieldset>
+        <div class="row">
+            <div class="span12">
+                <fieldset>
 
-        <fieldset>
+                @checkbox(
+                    registrationForm("accept"),
+                    '_label -> None, '_text -> "I agree to Signup's terms and conditions",
+                    '_showConstraints -> false
+                )
 
-        @checkbox(
-            registrationForm("accept"),
-            '_label -> None, '_text -> "You agree the terms and conditions",
-            '_showConstraints -> false
-        )
+                </fieldset>
 
-        </fieldset>
-
-        <div class="actions">
-            <input type="submit" class="btn primary" value="Sign Up">
-            <a href="@routes.Application.index" class="btn">Cancel</a>
+                <div class="actions">
+                    <input type="submit" class="btn primary" value="Sign Up">
+                    <a href="@routes.Application.index" class="btn">Cancel</a>
+                </div>
+            </div>
         </div>
 
     }
