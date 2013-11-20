@@ -34,7 +34,7 @@ object Registration extends Controller {
       "phone1_type" -> text(maxLength = 15),
 
       "accept" -> checked("You must accept the conditions")
-    )
+    ) {
       // The mapping signature doesn't match the User case class signature,
       // so we have to define custom binding/unbinding functions {
       // Binding: Create a User from the mapping result (ignore the second password and the accept field)
@@ -53,7 +53,7 @@ object Registration extends Controller {
    * Display an empty form.
    */
   def form = Action {
-    Ok(html.Registration.form(registrationForm));
+    Ok(html.registration.form(registrationForm));
   }
 
   /**
@@ -63,10 +63,10 @@ object Registration extends Controller {
     implicit request =>
       registrationForm.bindFromRequest.fold(
         // Form has errors, redisplay it
-        errors => BadRequest(html.Registration.form(errors)),
+        errors => BadRequest(html.registration.form(errors)),
 
         // We got a valid User value, display the summary
-        user => Ok(html.Registration.summary(user))
+        user => Ok(html.registration.summary(user))
       )
   }
 
