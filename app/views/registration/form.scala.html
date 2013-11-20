@@ -83,16 +83,19 @@
                         '_label -> "Phone",
                         '_showConstraints -> false
                     )
-                    @inputRadioGroup(
+                    @helper.inlineRadio(
                         registrationForm("phone1_type"),
-                        options = Seq("Cell" -> "Cell", "Home" -> "Home", "Work" -> "Work", "Other" -> "Other"),
+                        options = Seq("C" -> "Cell", "H" -> "Home", "W" -> "Work", "O" -> "Other"),
                         '_label -> "Phone Type",
+                        'class -> "radio inline",
                         '_showConstraints -> false
                     )
 
                 </fieldset>
             </div>
         </div>
+
+        <hr />
 
         <div class="row">
             <div class="span12">
