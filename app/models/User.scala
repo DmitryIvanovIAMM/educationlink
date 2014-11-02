@@ -1,12 +1,15 @@
 package models
 
 import scala.slick.driver.H2Driver.simple._
+import scala.slick.lifted.{ProvenShape, ForeignKeyQuery} 
 
 case class User(
                  id: Int,
                  username: String,
                  password: String,
                  email: String,
+                 //firstName: String,
+                 //lastName: String,
                  address1: String,
                  address2: String,
                  city: String,
@@ -16,8 +19,10 @@ case class User(
                  phone1_type: String
                  )
 
-object Users extends Table[User]("user") {
-  def id = column[Int]("id", O.PrimaryKey, O.AutoInc)
+//class Users(tag: Tag) extends Table[User](tag,"user") {
+class Users(tag: Tag) extends Table[User](tag, "user") {
+  //def id = column[Int]("id", O.PrimaryKey, O.AutoInc)
+  def id = column[Int]("id", O.PrimaryKey)
 
   def username = column[String]("user_login")
 
@@ -25,9 +30,9 @@ object Users extends Table[User]("user") {
 
   def email = column[String]("email")
 
-  def firstName = column[String]("first_name")
+  //def firstName = column[String]("first_name")
 
-  def lastName = column[String]("last_name")
+  //def lastName = column[String]("last_name")
 
   def address1 = column[String]("address1")
 
@@ -43,5 +48,7 @@ object Users extends Table[User]("user") {
 
   def phone1_type = column[String]("phone1_type")
 
-  def * = id ~ username ~ password ~ email ~ address1 ~ address2 ~ city ~ state ~ zip ~ phone1_no ~ phone1_type <>(User, User.unapply _)
+  // Every table needs a * projection with the same type as the table's type parameter
+  def * : ProvenShape[User] =
+    (id, username, password, email, address1, address2, city, state, zip, phone1_no, phone1_type)<> (User.tupled, User.unapply)
 }
